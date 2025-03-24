@@ -13,6 +13,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 
+const isProduction = process.env.NODE_ENV === "prod";
 app.use(cors());
 
 // init midd
@@ -33,14 +34,15 @@ app.use(
 app.use(
   "/redoc",
   (req, res, next) => {
-    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
-    res.setHeader("Pragma", "no-cache");
-    res.setHeader("Expires", "0");
+    if (isProduction) {
+      res.setHeader(
+        "Content-Security-Policy",
+        "default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:;",
+      );
+    } else {
+      res.setHeader("Content-Security-Policy", "");
+    }
 
-    res.setHeader(
-      "Content-Security-Policy",
-      "default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:;",
-    );
     next();
   },
   (req, res) => {
