@@ -1,7 +1,9 @@
 "use strict";
 import mongoose from "mongoose";
+import config from "../configs/config.mongodb.js";
+const { localhost, port, dbName } = config.db;
 
-const connectString = `mongodb://localhost:27017/Ecommerce`;
+const connectString = `mongodb://${localhost}:${port}/${dbName}`;
 
 class Database {
   constructor() {
@@ -9,7 +11,7 @@ class Database {
   }
 
   connect(type = "mongodb") {
-    console.log("🔥 Connecting to MongoDB...");
+    console.log("=> 🔥 Connecting to MongoDB...");
     if (1 === 1) {
       mongoose.set("debug", true);
       mongoose.set("debug", { color: true });
@@ -17,17 +19,17 @@ class Database {
     mongoose
       .connect(connectString)
       .then(() => {
-        console.log(`✅ DB connect success!`);
+        console.log(`=> ✅ DB connect success!`);
       })
       .catch((err) => {
-        console.error(`❌ DB can not connected!`, err);
+        console.error(`=> ❌ DB can not connected!`, err);
       });
   }
 
   static getInstance() {
     // console.log("⚡ getInstance() is being called...");
     if (!Database.instance) {
-      console.log("✨ Creating new Database instance...");
+      console.log("=> ✨ Creating new Database instance...");
       Database.instance = new Database();
     }
 
