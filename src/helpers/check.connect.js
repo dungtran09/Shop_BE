@@ -1,6 +1,5 @@
 "use strict";
-
-const { default: mongoose } = require("mongoose");
+import mongoose from "mongoose";
 
 const os = require("os");
 const process = require("process");
@@ -27,4 +26,4 @@ const checkOverload = () => {
   }, _SECOND);
 };
 
-module.exports = { countConnect, checkOverload };
+export default { countConnect, checkOverload };

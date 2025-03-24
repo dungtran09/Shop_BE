@@ -1,6 +1,5 @@
 "use strict";
-
-const { default: mongoose } = require("mongoose");
+import mongoose from "mongoose";
 
 const connectString = `mongodb://localhost:27017/Ecommerce`;
 
@@ -37,4 +36,5 @@ class Database {
 }
 
 const instanceMongodb = Database.getInstance();
-module.exports = instanceMongodb;
+
+export default instanceMongodb;
